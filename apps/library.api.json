@@ -1,0 +1,138 @@
+{
+  "name": "Library API",
+  "description": "Books and borrowers for a small library, with availability filtering.",
+  "version": "1.0.0",
+  "apiType": "REST",
+  "basePath": "/api",
+  "seed": 3,
+  "resources": {
+    "books": {
+      "idPrefix": "book",
+      "seedCount": 20,
+      "fields": {
+        "title": {
+          "type": "string",
+          "required": true,
+          "faker": "lorem.words",
+          "maxLength": 60
+        },
+        "author": {
+          "type": "string",
+          "required": true,
+          "faker": "person.fullName"
+        },
+        "genre": {
+          "type": "string",
+          "enum": [
+            "fiction",
+            "science",
+            "history",
+            "biography",
+            "fantasy"
+          ]
+        },
+        "year": {
+          "type": "integer",
+          "min": 1900,
+          "max": 2026
+        },
+        "available": {
+          "type": "boolean"
+        }
+      },
+      "filterable": [
+        "genre",
+        "available",
+        "year"
+      ],
+      "sortable": [
+        "title",
+        "year"
+      ]
+    },
+    "borrowers": {
+      "idPrefix": "bor",
+      "seedCount": 8,
+      "fields": {
+        "name": {
+          "type": "string",
+          "required": true,
+          "faker": "person.fullName"
+        },
+        "email": {
+          "type": "string",
+          "required": true,
+          "format": "email"
+        },
+        "memberSince": {
+          "type": "string",
+          "format": "date",
+          "faker": "date.past"
+        }
+      }
+    }
+  },
+  "endpoints": [
+    {
+      "id": "list-books",
+      "method": "GET",
+      "path": "/books",
+      "behavior": "list",
+      "resource": "books",
+      "summary": "List books"
+    },
+    {
+      "id": "get-book",
+      "method": "GET",
+      "path": "/books/:id",
+      "behavior": "getById",
+      "resource": "books",
+      "summary": "Get one book"
+    },
+    {
+      "id": "create-book",
+      "method": "POST",
+      "path": "/books",
+      "behavior": "create",
+      "resource": "books",
+      "summary": "Create a book"
+    },
+    {
+      "id": "update-book",
+      "method": "PATCH",
+      "path": "/books/:id",
+      "behavior": "update",
+      "resource": "books",
+      "summary": "Update a book"
+    },
+    {
+      "id": "delete-book",
+      "method": "DELETE",
+      "path": "/books/:id",
+      "behavior": "delete",
+      "resource": "books",
+      "summary": "Delete a book"
+    },
+    {
+      "id": "list-borrowers",
+      "method": "GET",
+      "path": "/borrowers",
+      "behavior": "list",
+      "resource": "borrowers"
+    },
+    {
+      "id": "get-borrower",
+      "method": "GET",
+      "path": "/borrowers/:id",
+      "behavior": "getById",
+      "resource": "borrowers"
+    },
+    {
+      "id": "create-borrower",
+      "method": "POST",
+      "path": "/borrowers",
+      "behavior": "create",
+      "resource": "borrowers"
+    }
+  ]
+}
