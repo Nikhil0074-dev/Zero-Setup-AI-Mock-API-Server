@@ -1,0 +1,261 @@
+{
+  "name": "E-Commerce API",
+  "description": "Products, users and orders with simulated login, order history, pagination and filtering.",
+  "version": "1.0.0",
+  "apiType": "REST",
+  "basePath": "/api",
+  "seed": 42,
+  "resources": {
+    "products": {
+      "idPrefix": "prod",
+      "seedCount": 30,
+      "fields": {
+        "name": {
+          "type": "string",
+          "required": true,
+          "faker": "commerce.productName"
+        },
+        "category": {
+          "type": "string",
+          "required": true,
+          "enum": [
+            "electronics",
+            "books",
+            "home",
+            "fashion",
+            "sports"
+          ]
+        },
+        "price": {
+          "type": "number",
+          "required": true,
+          "min": 1,
+          "max": 5000,
+          "faker": "commerce.price"
+        },
+        "inStock": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string",
+          "faker": "lorem.sentence"
+        }
+      },
+      "filterable": [
+        "category",
+        "inStock",
+        "price"
+      ],
+      "sortable": [
+        "name",
+        "price"
+      ]
+    },
+    "users": {
+      "idPrefix": "usr",
+      "seedCount": 10,
+      "fields": {
+        "name": {
+          "type": "string",
+          "required": true,
+          "faker": "person.fullName"
+        },
+        "email": {
+          "type": "string",
+          "required": true,
+          "format": "email"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "customer",
+            "admin",
+            "support"
+          ]
+        },
+        "active": {
+          "type": "boolean"
+        }
+      },
+      "filterable": [
+        "role",
+        "active"
+      ]
+    },
+    "orders": {
+      "idPrefix": "ord",
+      "seedCount": 25,
+      "fields": {
+        "userId": {
+          "type": "string",
+          "required": true,
+          "enum": [
+            "usr_101",
+            "usr_102",
+            "usr_103",
+            "usr_104",
+            "usr_105"
+          ]
+        },
+        "total": {
+          "type": "number",
+          "required": true,
+          "min": 0,
+          "max": 10000
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "paid",
+            "shipped",
+            "delivered",
+            "cancelled"
+          ]
+        }
+      },
+      "filterable": [
+        "status",
+        "userId"
+      ],
+      "sortable": [
+        "total"
+      ]
+    }
+  },
+  "endpoints": [
+    {
+      "id": "list-products",
+      "method": "GET",
+      "path": "/products",
+      "behavior": "list",
+      "resource": "products",
+      "summary": "List products"
+    },
+    {
+      "id": "get-product",
+      "method": "GET",
+      "path": "/products/:id",
+      "behavior": "getById",
+      "resource": "products",
+      "summary": "Get one product"
+    },
+    {
+      "id": "create-product",
+      "method": "POST",
+      "path": "/products",
+      "behavior": "create",
+      "resource": "products",
+      "summary": "Create a product"
+    },
+    {
+      "id": "update-product",
+      "method": "PATCH",
+      "path": "/products/:id",
+      "behavior": "update",
+      "resource": "products",
+      "summary": "Update a product"
+    },
+    {
+      "id": "delete-product",
+      "method": "DELETE",
+      "path": "/products/:id",
+      "behavior": "delete",
+      "resource": "products",
+      "summary": "Delete a product"
+    },
+    {
+      "id": "list-users",
+      "method": "GET",
+      "path": "/users",
+      "behavior": "list",
+      "resource": "users",
+      "summary": "List users"
+    },
+    {
+      "id": "get-user",
+      "method": "GET",
+      "path": "/users/:id",
+      "behavior": "getById",
+      "resource": "users",
+      "summary": "Get one user"
+    },
+    {
+      "id": "register-user",
+      "method": "POST",
+      "path": "/users/register",
+      "behavior": "create",
+      "resource": "users",
+      "summary": "Simulate user registration"
+    },
+    {
+      "id": "login",
+      "method": "POST",
+      "path": "/auth/login",
+      "behavior": "static",
+      "summary": "Simulate login (no real authentication)",
+      "requestSchema": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "token": "mock-token",
+          "tokenType": "Bearer",
+          "expiresIn": 3600
+        }
+      }
+    },
+    {
+      "id": "list-orders",
+      "method": "GET",
+      "path": "/orders",
+      "behavior": "list",
+      "resource": "orders",
+      "summary": "List orders"
+    },
+    {
+      "id": "get-order",
+      "method": "GET",
+      "path": "/orders/:id",
+      "behavior": "getById",
+      "resource": "orders",
+      "summary": "Get one order"
+    },
+    {
+      "id": "create-order",
+      "method": "POST",
+      "path": "/orders",
+      "behavior": "create",
+      "resource": "orders",
+      "summary": "Create a simulated order"
+    },
+    {
+      "id": "list-user-orders",
+      "method": "GET",
+      "path": "/users/:userId/orders",
+      "behavior": "list",
+      "resource": "orders",
+      "scope": {
+        "param": "userId",
+        "field": "userId"
+      },
+      "summary": "Order history for a user"
+    }
+  ]
+}
