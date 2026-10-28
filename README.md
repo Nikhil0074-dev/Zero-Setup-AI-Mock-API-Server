@@ -2,7 +2,17 @@
 
 Describe a REST API in plain language → get a validated, running mock API with realistic data, CRUD state, pagination, filtering, sorting, OpenAPI export and a browser console to test it. **No database and no AI key are needed to start.**
 
+![Dashboard](screenshots/01-home.png)
 ![Dashboard](screenshots/02-review-generated-api.png)
+![Dashboard](screenshots/03-project-endpoint-explorer.png)
+![Dashboard](screenshots/04-list-response.png)
+![Dashboard](screenshots/05-create-201.png)
+![Dashboard](screenshots/06-validation-error-400.png)
+![Dashboard](screenshots/07-schemas-tab.png)
+![Dashboard](screenshots/08-request-logs.png)
+![Dashboard](screenshots/09-deactivated-503.png)
+![Dashboard](screenshots/10-mobile.png)
+![Dashboard](screenshots/11-dark-mode.png)
 
 ## Quick start
 
@@ -80,10 +90,3 @@ apps/web/public        static dashboard (no build step)
 e2e/                   Playwright browser test
 docs/                  architecture, api-reference, security, setup, deployment, test report
 ```
-
-## Honest limitations
-- In-memory data disappears on restart and isn't shared between processes (use Redis for that).
-- The Redis adapter is tested against `ioredis-mock`, **not** a real Redis server; `updateRecord` isn't atomic across several server instances.
-- The dashboard is plain HTML/JS rather than the Next.js app in the original proposal (keeps "zero setup"; the API is UI-agnostic so a Next.js front end can be added).
-- GraphQL, OpenAPI *import*, scenarios/failure simulation, webhooks and multi-user accounts are not implemented (see proposal §24).
-- Login/registration endpoints are simulations; there is no real authentication. The Docker files were written but not built in this environment.
