@@ -1,0 +1,11 @@
+services:
+  mock-api:
+    build: .
+    ports: ["4000:4000"]
+    environment:
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+  # Optional shared storage: docker compose --profile redis up, then set STORE=redis and REDIS_URL=redis://redis:6379
+  redis:
+    image: redis:7-alpine
+    profiles: ["redis"]
